@@ -7,7 +7,7 @@
     <ProjectGuid>{E23DA76C-6776-485F-82AA-4E3E0F51B954}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JPiolho_Console_Commands</RootNamespace>
+    <RootNamespace>JPiolho.ConsoleCommands</RootNamespace>
     <AssemblyName>JPiolho Console Commands</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Console.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
