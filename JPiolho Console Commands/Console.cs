@@ -90,6 +90,15 @@ namespace JPiolho.ConsoleCommands
             registeredCommands.Add(command, callback);
         }
 
+        /// <summary>
+        /// Unregisters a command
+        /// </summary>
+        /// <param name="command"></param>
+        public static void UnregisterCommand(string command)
+        {
+            registeredCommands.Remove(command);
+        }
+
 
         public delegate void OnCommandEventHandler(string command, string[] arguments);
         public static event OnCommandEventHandler OnCommand;
