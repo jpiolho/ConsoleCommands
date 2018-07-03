@@ -20,35 +20,49 @@ namespace JPiolho.ConsoleCommands
 
             while (!stopRequested)
             {
-                var line = Console.ReadLine().Trim();
-
-                // Ignore if line is empty
-                if (line.Length == 0)
-                    continue;
-
-                var tokens = GetTokens(line);
-
-                // Ignore if there was nothing
-                if (tokens.Length == 0)
-                    continue;
-
-                string command = tokens[0].ToLower();
-                string[] arguments = new string[tokens.Length - 1];
-
-                // Copy arguments
-                if (tokens.Length > 1)
-                    Array.Copy(tokens, 1, arguments, 0, tokens.Length - 1);
-
-                OnCommand?.Invoke(command, arguments);
-
-                // Call registered command
-                if (registeredCommands.ContainsKey(command))
+                try
                 {
-                    registeredCommands[command]?.Invoke(arguments);
+                    var line = Console.ReadLine().Trim();
+
+                    // Ignore if line is empty
+                    if (line.Length == 0)
+                        continue;
+
+                    var tokens = GetTokens(line);
+
+                    // Ignore if there was nothing
+                    if (tokens.Length == 0)
+                        continue;
+
+                    string command = tokens[0].ToLower();
+                    string[] arguments = new string[tokens.Length - 1];
+
+                    // Copy arguments
+                    if (tokens.Length > 1)
+                        Array.Copy(tokens, 1, arguments, 0, tokens.Length - 1);
+
+                    OnCommand?.Invoke(command, arguments);
+
+                    // Call registered command
+                    if (registeredCommands.ContainsKey(command))
+                    {
+                        registeredCommands[command]?.Invoke(arguments);
+                    }
+                    else // Or unknown command
+                    {
+                        OnUnknownCommand?.Invoke(command, arguments);
+                    }
                 }
-                else // Or unknown command
+                catch(Exception ex)
                 {
-                    OnUnknownCommand?.Invoke(command, arguments);
+                    if(OnError != null)
+                    {
+                        OnError.Invoke(ex);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error in handling command: " + ex.ToString());
+                    }
                 }
             }
         }
@@ -83,6 +97,8 @@ namespace JPiolho.ConsoleCommands
         public delegate void OnUnknownCommandEventHandler(string command, string[] arguments);
         public static event OnCommandEventHandler OnUnknownCommand;
 
+        public delegate void OnErrorEventHandler(Exception ex);
+        public static event OnErrorEventHandler OnError;
 
 
 
